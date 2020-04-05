@@ -32,15 +32,19 @@ const App = () => {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+        <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
+
+
           <View style={styles.body}>
             <View style={styles.logoField}>
-            <Image style={styles.HomeIcon} source={require('./static/img/homeIcon.jpg')} />
+              <Image style={styles.HomeIcon} source={require('./static/img/homeIcon.jpg')} />
             </View>
+            <View style={styles.titleField}>
+          <Text style={styles.titleText}>Work for Student</Text>
+          </View>
             <LoginForm />
           </View>
+
         </ScrollView>
       </SafeAreaView>
     </>
@@ -61,10 +65,20 @@ const styles = StyleSheet.create({
   },
   HomeIcon: {
     marginTop: 20,
-      marginBottom: 20,
-      width: 150,
-      height: 150,
+    marginBottom: 20,
+    width: 150,
+    height: 150,
   },
+  titleField: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  titleText: {
+    fontSize: 20,
+    color: 'black',
+    fontWeight: 'bold',
+    padding: 20
+  }
 });
 
 export default App;
