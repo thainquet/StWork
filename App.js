@@ -40,8 +40,8 @@ const App = () => {
               <Image style={styles.HomeIcon} source={require('./static/img/homeIcon.jpg')} />
             </View>
             <View style={styles.titleField}>
-          <Text style={styles.titleText}>Work for Student</Text>
-          </View>
+              <Text style={styles.titleText}>Work for Student</Text>
+            </View>
             <LoginForm />
           </View>
 
