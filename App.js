@@ -14,39 +14,54 @@ import {
   View,
   Text,
   StatusBar,
-  Image
+  Image,
+  Button
 } from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import { LoginForm } from './components/Login'
+import { Homepage } from './Screen/Homepage'
+
+const Stack = createStackNavigator()
+
+let isLogin = false
+const Login = ({ navigation }) => {
+  return (
+    <SafeAreaView>
+      <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
+        <View style={styles.body}>
+          <View style={styles.logoField}>
+            <Image style={styles.HomeIcon} source={require('./static/img/homeIcon.jpg')} />
+          </View>
+          <View style={styles.titleField}>
+            <Text style={styles.titleText}>Work for Student</Text>
+          </View>
+          <LoginForm />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  )
+}
+
+const Home = ({ navigation }) => {
+  return (
+    <>
+      <Homepage/>
+    </>
+  )
+}
 
 const App = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
-
-
-          <View style={styles.body}>
-            <View style={styles.logoField}>
-              <Image style={styles.HomeIcon} source={require('./static/img/homeIcon.jpg')} />
-            </View>
-            <View style={styles.titleField}>
-              <Text style={styles.titleText}>Work for Student</Text>
-            </View>
-            <LoginForm />
-          </View>
-
-        </ScrollView>
-      </SafeAreaView>
+      <NavigationContainer>
+        <StatusBar barStyle="dark-content" />
+        <Stack.Navigator>
+          <Stack.Screen name="home" component={Home} />
+          <Stack.Screen name="login" component={Login} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </>
   );
 };
