@@ -9,9 +9,12 @@ import {
     Image,
     Alert
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import Login from '../Screen/Login';
 
 
-export const LoginForm = () => {
+const LoginForm = () => {
+    const navigation = useNavigation()
 
     handleClick = (viewId) => {
         Alert.alert("Alert", "Button pressed " + viewId);
@@ -46,7 +49,7 @@ export const LoginForm = () => {
                 <Text>Forgot your password?</Text>
             </TouchableHighlight>
 
-            <TouchableHighlight style={styles.buttonContainer} onPress={() => handleClick('register')}>
+            <TouchableHighlight style={styles.buttonContainer} onPress={() => navigation.navigate('Signup')}>
                 <Text>Register</Text>
             </TouchableHighlight>
         </View>
@@ -98,3 +101,5 @@ const styles = StyleSheet.create({
         color: 'white',
     }
 });
+
+export default LoginForm
