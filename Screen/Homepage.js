@@ -13,8 +13,8 @@ const Home =({navigation}) => {
           <Text>
             Homepage
           </Text>
-          <Button title="Go to Details"
-          onPress={() => navigation.navigate('login')}/>
+          <Button title="Logout"
+          onPress={() => navigation.navigate('AuthNavigation')}/>
         </View>
       </>
     )

@@ -19,7 +19,8 @@ const LoginForm = () => {
     const navigation = useNavigation()
 
     onClickLogin = () => {
-        Alert.alert(username + ' - ' + password)
+        // Alert.alert(username + ' - ' + password)
+        navigation.navigate('AppNavigation')
     }
 
     return (
