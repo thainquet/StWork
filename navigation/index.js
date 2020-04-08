@@ -4,7 +4,6 @@ import AppNavigation from './app-nav'
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-
 const Drawer = createDrawerNavigator();
 
 const AppContainer = () => {
