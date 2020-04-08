@@ -6,18 +6,17 @@ import {
     Button
 } from 'react-native';
 
-const Home =({navigation}) => {
+const Favorite =({navigation}) => {
     return(
       <>
         <View>
           <Text>
-            Homepage
+            Favorite
           </Text>
-          <Button title="Logout"
-          onPress={() => navigation.navigate('AuthNavigation')}/>
+          
         </View>
       </>
     )
   }
 
-  export default Home
+  export default Favorite

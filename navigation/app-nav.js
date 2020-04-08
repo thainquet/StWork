@@ -6,23 +6,32 @@ import {
   View,
   Button
 } from 'react-native';
-import Home from '../Screen/Homepage'
+import Search from '../Screen/appScreen/Search'
+import Favorite from '../Screen/appScreen/Favorite'
+import { useNavigation } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Stack = createStackNavigator()
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
 const Drawer = createDrawerNavigator();
-import { useNavigation } from '@react-navigation/native';
+const Tab = createBottomTabNavigator()
 
-function DrawerContent() {
+const HomeTab = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="searchTab" component={Search}/>
+      <Tab.Screen name="favoriteTab" component={Favorite}/>
+    </Tab.Navigator>
+  )
+}
+
+const DrawerContent = () => {
   const navigation = useNavigation()
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Drawer content</Text>
       <Button title="Logout"
-        onPress={() => {
-          navigation.navigate('AuthNavigation')
-        }} />
+        onPress={() => navigation.navigate('AuthNavigation')} />
     </View>
   );
 }
@@ -30,7 +39,7 @@ const AppNavigation = () => {
   return (
     <>
       <Drawer.Navigator drawerContent={() => <DrawerContent />}>
-        <Drawer.Screen name="Home" component={Home} />
+        <Drawer.Screen name="HomeTab" component={HomeTab} />
       </Drawer.Navigator>
     </>
   )
