@@ -111,4 +111,4 @@ const posts = [{
     expiredAt: "31/05/2020"
 }
 ]
-export default {quanNoiThanh, posts}
+export {quanNoiThanh, posts}
