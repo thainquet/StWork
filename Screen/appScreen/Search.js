@@ -11,6 +11,7 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Card, Avatar } from 'react-native-elements'
 import { quanNoiThanh as quan_huyen, posts as baiDang } from '../../dummyData'
 
@@ -18,10 +19,12 @@ import { TouchableOpacity } from 'react-native';
 
 const URL = 'https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/quan_huyen.json'
 
+
 const Search = ({ navigation }) => {
   const [quanHuyen, setQuanHuyen] = useState(quan_huyen)
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedValue, setSelectedValue] = useState("Tất cả")
+  const [itemTimeRequired, setItemTiemRequired] = useState("Tất cả")
   const screenHeight = Dimensions.get('window').height
   return (
     <>
@@ -34,25 +37,41 @@ const Search = ({ navigation }) => {
               presentationStyle="fullScreen"
             >
               <View style={{ flex: 1 }} >
-
-                <Picker
-                  selectedValue={selectedValue}
-                  style={{ height: 50, width: 150 }}
-                  onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                >
-                  {quanHuyen.map(i => <Picker.Item label={i.name} value={i.name} key="i.code" />)}
-                </Picker>
-                <Button style={{ position: 'absolute', top: 0, left: 0, width: '50%' }} onPress={() => setModalVisible(false)} title="Close" />
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ fontSize: 20, height: 50, width: 150 }}>Vị trí</Text>
+                  <Picker
+                    selectedValue={selectedValue}
+                    style={{ height: 50, width: 150 }}
+                    onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                  >
+                    {quanHuyen.map(i => <Picker.Item label={i.name} value={i.name} key="i.code" />)}
+                  </Picker>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ fontSize: 20, height: 50, width: 150 }}>Thời gian làm việc</Text>
+                  <Picker
+                    selectedValue={itemTimeRequired}
+                    style={{ height: 50, width: 150 }}
+                    onValueChange={(itemValue) => setItemTiemRequired(itemValue)}
+                  >
+                    <Picker.Item label="Partime" value="Partime" />
+                    <Picker.Item label="Fulltime" value="Fulltime" />
+                    <Picker.Item label="Tất cả" value="Tất cả" />
+                  </Picker>
+                </View>
+                <Button style={{ position: 'absolute', top: 0, left: 0, width: '50%' }} onPress={() => setModalVisible(false)} title="Đóng" />
               </View>
             </Modal>
-            <Text>
-              Homepage
-          </Text>
-            <Text>
-              Homepage
-          </Text>
-            <Text>{selectedValue}</Text>
-            <Button title="Open Modal"
+
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ fontSize: 20 }}>Nơi làm việc: </Text>
+              <Text style={{ fontSize: 20 }}>{selectedValue}</Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ fontSize: 20 }}>Hình thức: </Text>
+              <Text style={{ fontSize: 20 }}>{itemTimeRequired}</Text>
+            </View>
+            <Button title="Điều kiện lọc"
               // onPress={() => navigation.navigate('AuthNavigation')} />
               onPress={() => setModalVisible(true)} />
           </View>
@@ -61,7 +80,7 @@ const Search = ({ navigation }) => {
             backgroundColor: '#c7eef5'
           }}>
             {baiDang && baiDang.map(i => (
-              <View key={i.id}>
+              <TouchableOpacity key={i.id} onPress={() => navigation.push('Detail')}>
                 <View style={{
                   marginTop: '5%',
                   width: 500,
@@ -104,7 +123,7 @@ const Search = ({ navigation }) => {
                     </View>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
         </ScrollView>
