@@ -24,6 +24,7 @@ const Search = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedValue, setSelectedValue] = useState("Tất cả")
   const [itemTimeRequired, setItemTiemRequired] = useState("Tất cả")
+  const [allPosts, setAllPosts] = useState(baiDang)
   const screenHeight = Dimensions.get('window').height
   return (
     <>
@@ -43,7 +44,8 @@ const Search = ({ navigation }) => {
                     style={{ height: 50, width: 150 }}
                     onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
                   >
-                    {quanHuyen.map(i => <Picker.Item label={i.name} value={i.name} key="i.code" />)}
+                    <Picker.Item label="Tất cả" value="Tất cả" />
+                    {quanHuyen.map(i => <Picker.Item label={i.name} value={i.name} key={i.code} />)}
                   </Picker>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
@@ -58,7 +60,24 @@ const Search = ({ navigation }) => {
                     <Picker.Item label="Tất cả" value="Tất cả" />
                   </Picker>
                 </View>
-                <Button style={{ position: 'absolute', top: 0, left: 0, width: '50%' }} onPress={() => setModalVisible(false)} title="Đóng" />
+                <Button style={{ position: 'absolute', top: 0, left: 0, width: '50%' }}
+                  onPress={() => {
+                    setModalVisible(false)
+                    if (itemTimeRequired !== "Tất cả" && selectedValue !== "Tất cả") {
+                      let tempArr = baiDang.filter(i => i.quan === selectedValue)
+                      setAllPosts(tempArr.filter(i => i.timeRequired === itemTimeRequired))
+                    }
+                    if (itemTimeRequired !== "Tất cả" && selectedValue === "Tất cả") {
+                      setAllPosts(baiDang.filter(i => i.timeRequired === itemTimeRequired))
+                    }
+                    if (itemTimeRequired === "Tất cả" && selectedValue !== "Tất cả") {
+                      setAllPosts(baiDang.filter(i => i.quan === selectedValue))
+                    }
+                    if (itemTimeRequired === "Tất cả" && selectedValue === "Tất cả") {
+                      setAllPosts(baiDang)
+                    }
+                  }}
+                  title="Đóng" />
               </View>
             </Modal>
 
@@ -78,7 +97,7 @@ const Search = ({ navigation }) => {
             flex: 1,
             backgroundColor: '#c7eef5'
           }}>
-            {baiDang && baiDang.map(i => (
+            {allPosts.length > 0 ? (allPosts.map(i => (
               <TouchableOpacity key={i.id} onPress={() => navigation.push('Detail', { id: i.id })}>
                 <View style={{
                   marginTop: '5%',
@@ -111,7 +130,7 @@ const Search = ({ navigation }) => {
                       {i.title}
                     </Text>
                     <View style={{ flexDirection: 'row' }}>
-                      {i.timeRequired === 'partime' ? (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#a78ccc' }}>
+                      {i.timeRequired === 'Partime' ? (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#a78ccc' }}>
                         <Text>{i.timeRequired}</Text>
                       </TouchableOpacity>) : (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#5eba7d' }}>
                         <Text>{i.timeRequired}</Text>
@@ -123,7 +142,9 @@ const Search = ({ navigation }) => {
                   </View>
                 </View>
               </TouchableOpacity>
-            ))}
+            ))) : (<View style={{ marginTop: 20, height: 500 }}>
+              <Text style={{ fontSize: 40, textAlign: 'center' }}>Không có công việc phù hợp!</Text>
+            </View>)}
           </View>
         </ScrollView>
       </View>
