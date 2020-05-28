@@ -26,10 +26,13 @@ const HomeStackScreen = () => {
   );
 }
 
-const Detail = ({ navigation }) => {
+const Detail = ({ route, navigation }) => {
+  const { id } = route.params
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Details Screen</Text>
+      <Text>Post id: {id}</Text>
       <Button title="Go to Home" onPress={() => navigation.navigate('Search')} />
       <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>

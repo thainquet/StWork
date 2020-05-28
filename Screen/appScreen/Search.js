@@ -80,7 +80,7 @@ const Search = ({ navigation }) => {
             backgroundColor: '#c7eef5'
           }}>
             {baiDang && baiDang.map(i => (
-              <TouchableOpacity key={i.id} onPress={() => navigation.push('Detail')}>
+              <TouchableOpacity key={i.id} onPress={() => navigation.push('Detail', { id: i.id })}>
                 <View style={{
                   marginTop: '5%',
                   width: 500,
