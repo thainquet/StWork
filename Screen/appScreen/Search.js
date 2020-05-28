@@ -11,7 +11,6 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { Card, Avatar } from 'react-native-elements'
 import { quanNoiThanh as quan_huyen, posts as baiDang } from '../../dummyData'
 

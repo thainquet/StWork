@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Search from '../Screen/appScreen/Search'
 import Favorite from '../Screen/appScreen/Favorite'
+import Detail from '../Screen/appScreen/Detail'
 import { useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -26,18 +27,6 @@ const HomeStackScreen = () => {
   );
 }
 
-const Detail = ({ route, navigation }) => {
-  const { id } = route.params
-
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-      <Text>Post id: {id}</Text>
-      <Button title="Go to Home" onPress={() => navigation.navigate('Search')} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
-}
 
 const HomeTab = () => {
   return (
