@@ -12,6 +12,7 @@ import Detail from '../Screen/appScreen/Detail'
 import { useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator()
@@ -30,7 +31,16 @@ const HomeStackScreen = () => {
 
 const HomeTab = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+        labelStyle: {
+          fontSize: 25,
+          margin: 0,
+          padding: 0,
+        }
+      }} initialRouteName="searchTab">
       <Tab.Screen name="searchTab" component={HomeStackScreen} />
       <Tab.Screen name="favoriteTab" component={Favorite} />
     </Tab.Navigator>
