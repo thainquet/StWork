@@ -56,9 +56,10 @@ const Search = ({ navigation }) => {
               // onPress={() => navigation.navigate('AuthNavigation')} />
               onPress={() => setModalVisible(true)} />
           </View>
-          <View style={{ flex: 1,
-                  backgroundColor: '#c7eef5'
-                  }}>
+          <View style={{
+            flex: 1,
+            backgroundColor: '#c7eef5'
+          }}>
             {baiDang && baiDang.map(i => (
               <View key={i.id}>
                 <View style={{
@@ -70,28 +71,38 @@ const Search = ({ navigation }) => {
                   alignContent: 'stretch'
                 }}>
                   <Avatar
-                  style={{
-                    marginLeft: '1%',
-                    flex: 2,
-                    width: 100,
-                    height: 100,
-                  }}
+                    style={{
+                      marginLeft: '1%',
+                      flex: 2,
+                      width: 100,
+                      height: 100,
+                    }}
                     source={{
                       uri: i.avatar,
                     }}
                   />
-                  <View style={{                    
-                  marginLeft: '5%',
-                  marginRight: '10%',
-                   flex: 6 ,
+                  <View style={{
+                    marginLeft: '5%',
+                    marginRight: '10%',
+                    flex: 6,
                   }}>
-                  <Text style={{
-                   flexWrap: "wrap",
-                   fontSize: 20
-                   }}>
-                    {i.title}
+                    <Text style={{
+                      flexWrap: "wrap",
+                      fontSize: 20
+                    }}>
+                      {i.title}
                     </Text>
+                    <View style={{ flexDirection: 'row' }}>
+                      {i.timeRequired === 'partime' ? (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#a78ccc' }}>
+                        <Text>{i.timeRequired}</Text>
+                      </TouchableOpacity>) : (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#5eba7d' }}>
+                        <Text>{i.timeRequired}</Text>
+                      </TouchableOpacity>)}
+                      <TouchableOpacity style={{ borderWidth: 1, borderLeftWidth: 0, padding: 5, width: 90, marginTop: 10, backgroundColor: '#e6e6e6' }}>
+                        <Text>{i.quan}</Text>
+                      </TouchableOpacity>
                     </View>
+                  </View>
                 </View>
               </View>
             ))}

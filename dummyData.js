@@ -106,7 +106,7 @@ const posts = [{
        convallis a cras. Mollis aliquam ut porttitor leo a. Montes nascetur ridiculus mus mauris. 
        Eget mauris pharetra et ultrices neque ornare. Mauris commodo quis imperdiet massa tincidunt 
        nunc pulvinar sapien et. Sem integer vitae justo eget.`,
-    timeRequired: "partime",
+    timeRequired: "fulltime",
     postAuthor: "Hồ Văn C",
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg',
     createAt: "16/04/2020",
@@ -183,4 +183,4 @@ const posts = [{
     expiredAt: "31/05/2020"
 }
 ]
-export {quanNoiThanh, posts}
+export { quanNoiThanh, posts }
