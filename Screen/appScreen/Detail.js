@@ -17,7 +17,7 @@ const Detail = ({ route, navigation }) => {
 
     return (
         <View>
-            <ScrollView>
+            <ScrollView style={{ paddingTop: 20, paddingBottom: 20, height: '100%' }}>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <View>
                         {baiDang && baiDang.filter(i => i.id === id).map(i => (
@@ -71,6 +71,11 @@ const Detail = ({ route, navigation }) => {
                                         }}>
                                             Người đăng: {i.postAuthor}
                                         </Text>
+                                        <Text style={{
+                                            fontSize: 16
+                                        }}>
+                                            Mức lương: {i.salary} vnđ
+                                        </Text>
 
                                         <View style={{ flexDirection: 'row' }}>
                                             {i.timeRequired === 'partime' ? (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#a78ccc' }}>
@@ -86,6 +91,11 @@ const Detail = ({ route, navigation }) => {
                                 </View>
                             </View>
                         ))}
+                    </View>
+                    <View>
+                        <Text style={{ fontSize: 20 }}>
+                            get notice
+                    </Text>
                     </View>
                 </View>
             </ScrollView>

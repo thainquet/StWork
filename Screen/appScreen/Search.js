@@ -123,12 +123,20 @@ const Search = ({ navigation }) => {
                     marginRight: '10%',
                     flex: 6,
                   }}>
-                    <Text style={{
-                      flexWrap: "wrap",
-                      fontSize: 20
-                    }}>
-                      {i.title}
-                    </Text>
+                    <View>
+                      <Text style={{
+                        flexWrap: "wrap",
+                        fontSize: 18
+                      }}>
+                        {i.title}
+                      </Text>
+                      <Text style={{
+                        flexWrap: "wrap",
+                        fontSize: 16
+                      }}>
+                        Mức lương: {i.salary} vnđ
+                      </Text>
+                    </View>
                     <View style={{ flexDirection: 'row' }}>
                       {i.timeRequired === 'Partime' ? (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#a78ccc' }}>
                         <Text>{i.timeRequired}</Text>
