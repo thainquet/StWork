@@ -96,7 +96,8 @@ const posts = [{
     postAuthor: "Tạ Thị B",
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
     createAt: "16/04/2020",
-    expiredAt: "31/05/2020"
+    expiredAt: "31/05/2020",
+    salary: "5.000.000"
 }, {
     id: '2',
     quan: "Cầu Giấy",
@@ -110,7 +111,8 @@ const posts = [{
     postAuthor: "Hồ Văn C",
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg',
     createAt: "16/04/2020",
-    expiredAt: "31/05/2020"
+    expiredAt: "31/05/2020",
+    salary: "6.000.000"
 }, {
     id: '3',
     quan: "Cầu Giấy",
@@ -124,7 +126,8 @@ const posts = [{
     postAuthor: "Hồ Văn C",
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
     createAt: "16/04/2020",
-    expiredAt: "31/05/2020"
+    expiredAt: "31/05/2020",
+    salary: "5.500.000"
 }, {
     id: '4',
     quan: "Hoàn Kiếm",
@@ -138,7 +141,8 @@ const posts = [{
     postAuthor: "Hồ Văn C",
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
     createAt: "16/04/2020",
-    expiredAt: "31/05/2020"
+    expiredAt: "31/05/2020",
+    salary: "5.700.000"
 }, {
     id: '5',
     quan: "Cầu Giấy",
@@ -152,7 +156,8 @@ const posts = [{
     postAuthor: "Hồ Văn C",
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
     createAt: "16/04/2020",
-    expiredAt: "31/05/2020"
+    expiredAt: "31/05/2020",
+    salary: "7.000.000"
 }, {
     id: '6',
     quan: "Cầu Giấy",
@@ -166,7 +171,8 @@ const posts = [{
     postAuthor: "Hồ Văn C",
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg',
     createAt: "16/04/2020",
-    expiredAt: "31/05/2020"
+    expiredAt: "31/05/2020",
+    salary: "5.200.000"
 }, {
     id: '7',
     quan: "Cầu Giấy",
@@ -180,7 +186,8 @@ const posts = [{
     postAuthor: "Hồ Văn C",
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
     createAt: "16/04/2020",
-    expiredAt: "31/05/2020"
+    expiredAt: "31/05/2020",
+    salary: "8.000.000"
 }
 ]
 export { quanNoiThanh, posts }
