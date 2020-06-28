@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack'
 import {
   StyleSheet,
@@ -13,10 +13,10 @@ import { useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator()
-
 const HomepageDetailStack = createStackNavigator()
 
 const HomeStackScreen = () => {
@@ -41,17 +41,29 @@ const HomeTab = () => {
           padding: 0,
         }
       }} initialRouteName="searchTab">
-      <Tab.Screen name="searchTab" component={HomeStackScreen} />
-      <Tab.Screen name="favoriteTab" component={Favorite} />
+      <Tab.Screen name="Home" component={HomeStackScreen} />
+      <Tab.Screen name="Favorite" component={Favorite} />
     </Tab.Navigator>
   )
 }
+const getMyStringValue = async () => {
+  try {
+    console.log("sdasd: ", AsyncStorage.getItem('@username'))
+    return await AsyncStorage.getItem('@username')
+  } catch (e) {
+    // read error
+  }
 
+  console.log('Done.')
+
+}
 const DrawerContent = () => {
+  const [username, setUsername] = useState('')
   const navigation = useNavigation()
+  getMyStringValue().then((res) => setUsername(res))
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Drawer content</Text>
+      <Text>Hello, {username}</Text>
       <Button title="Logout"
         onPress={() => navigation.navigate('AuthNavigation')} />
     </View>

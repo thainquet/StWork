@@ -10,17 +10,25 @@ import {
     Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
+const storeData = async (value) => {
+    try {
+        await AsyncStorage.setItem('@username', value)
+    } catch (e) {
+        // saving error
+    }
+}
 
 const LoginForm = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    
+
     const navigation = useNavigation()
 
-    onClickLogin = () => {
-        // Alert.alert(username + ' - ' + password)
-        navigation.navigate('AppNavigation')
+    onClickLogin = async () => {
+        await storeData(username)
+        await navigation.navigate('AppNavigation')
     }
 
     return (
@@ -31,7 +39,7 @@ const LoginForm = () => {
                     placeholder="Email"
                     keyboardType="email-address"
                     underlineColorAndroid='transparent'
-                  onChangeText={(email) => setUsername(email)}
+                    onChangeText={(email) => setUsername(email)}
                 />
             </View>
 
@@ -41,7 +49,7 @@ const LoginForm = () => {
                     placeholder="Password"
                     secureTextEntry={true}
                     underlineColorAndroid='transparent'
-                  onChangeText={(password) => setPassword(password)}
+                    onChangeText={(password) => setPassword(password)}
                 />
             </View>
 
