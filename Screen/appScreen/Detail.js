@@ -14,7 +14,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const Detail = ({ route, navigation }) => {
     const { id } = route.params
-
+    const savedThis = (id) => {
+        console.log(id)
+    }
     return (
         <View>
             <ScrollView style={{ paddingTop: 20, paddingBottom: 20, height: '100%' }}>
@@ -93,9 +95,11 @@ const Detail = ({ route, navigation }) => {
                         ))}
                     </View>
                     <View>
-                        <Text style={{ fontSize: 20 }}>
-                            get notice
-                    </Text>
+                        <TouchableOpacity onPress={() => savedThis(id)} style={{ fontSize: 20, height: 60, backgroundColor: "pink", borderRadius: 15, padding: 10 }}>
+                            <Text>
+                                get notice
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </ScrollView>
