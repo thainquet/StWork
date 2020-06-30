@@ -18,6 +18,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator()
 const HomepageDetailStack = createStackNavigator()
+const FavoriteDetailStack = createStackNavigator()
 
 const HomeStackScreen = () => {
   return (
@@ -26,6 +27,15 @@ const HomeStackScreen = () => {
       <HomepageDetailStack.Screen name="Detail" component={Detail} />
     </HomepageDetailStack.Navigator>
   );
+}
+
+const FavoriteStackScreen = () => {
+  return (
+    <FavoriteDetailStack.Navigator initialRouteName="Favorite">
+      <FavoriteDetailStack.Screen name="Favorite" component={Favorite} />
+      <FavoriteDetailStack.Screen name="Detail" component={Detail} />
+    </FavoriteDetailStack.Navigator>
+  )
 }
 
 
@@ -42,21 +52,18 @@ const HomeTab = () => {
         }
       }} initialRouteName="searchTab">
       <Tab.Screen name="Home" component={HomeStackScreen} />
-      <Tab.Screen name="Favorite" component={Favorite} />
+      <Tab.Screen name="Favorite" component={FavoriteStackScreen} />
     </Tab.Navigator>
   )
 }
 const getMyStringValue = async () => {
   try {
-    console.log("sdasd: ", AsyncStorage.getItem('@username'))
     return await AsyncStorage.getItem('@username')
   } catch (e) {
     // read error
   }
-
-  console.log('Done.')
-
 }
+
 const DrawerContent = () => {
   const [username, setUsername] = useState('')
   const navigation = useNavigation()
