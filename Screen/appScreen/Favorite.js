@@ -34,10 +34,7 @@ const Favorite = ({ navigation }) => {
           <View>
             {favor.length > 0 ? (favor.map(i => (
               <TouchableOpacity key={i.id} onPress={() => navigation.push('Detail', { id: i.id })}>
-                <View>
-                  <Text>{i.title}</Text>
-                </View>
-                {/* <View style={{
+                <View style={{
                   marginTop: '5%',
                   width: 500,
                   flex: 1,
@@ -45,7 +42,7 @@ const Favorite = ({ navigation }) => {
                   justifyContent: 'space-evenly',
                   alignContent: 'stretch'
                 }}>
-                  <Avatar
+                  {/* <Avatar
                     style={{
                       marginLeft: '1%',
                       flex: 2,
@@ -55,7 +52,7 @@ const Favorite = ({ navigation }) => {
                     source={{
                       uri: i.avatar,
                     }}
-                  />
+                  /> */}
                   <View style={{
                     marginLeft: '5%',
                     marginRight: '10%',
@@ -75,6 +72,7 @@ const Favorite = ({ navigation }) => {
                         Mức lương: {i.salary} vnđ
                 </Text>
                     </View>
+
                     <View style={{ flexDirection: 'row' }}>
                       {i.timeRequired === 'Partime' ? (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#a78ccc' }}>
                         <Text>{i.timeRequired}</Text>
@@ -86,7 +84,7 @@ const Favorite = ({ navigation }) => {
                       </TouchableOpacity>
                     </View>
                   </View>
-                </View> */}
+                </View>
               </TouchableOpacity>
             ))) : <View>
                 <Text>
