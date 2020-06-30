@@ -11,6 +11,7 @@ import { Card, Avatar } from 'react-native-elements'
 import { quanNoiThanh as quan_huyen, posts as baiDang } from '../../dummyData'
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 
 const storeData = async (value) => {
@@ -21,10 +22,12 @@ const storeData = async (value) => {
     }
 }
 
-const Detail = ({ route, navigation }) => {
+const Detail = ({ route }) => {
+    const navigation = useNavigation()
     const { id } = route.params
     const savedThis = (id) => {
         storeData(JSON.stringify(baiDang.filter(post => post.id === id)))
+        navigation.goBack()
     }
     return (
         <View>
