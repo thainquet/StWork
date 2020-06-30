@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 import {
     StyleSheet,
     Text,
@@ -11,6 +12,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
+const LOGIN_URL = "http://localhost:5000/login"
 
 const storeData = async (value) => {
     try {
@@ -27,6 +29,11 @@ const LoginForm = () => {
     const navigation = useNavigation()
 
     onClickLogin = async () => {
+        let res = await axios.post(LOGIN_URL, JSON.stringify({
+            username: username,
+            password: password
+        }))
+        console.log(res.data)
         await storeData(username)
         await navigation.navigate('AppNavigation')
     }
