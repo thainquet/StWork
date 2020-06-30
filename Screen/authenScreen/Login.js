@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
-const LOGIN_URL = "http://localhost:5000/login"
+const LOGIN_URL = "http://10.0.2.2:5000/login"
 
 const storeData = async (value) => {
     try {
@@ -33,9 +33,10 @@ const LoginForm = () => {
             username: username,
             password: password
         }))
-        console.log(res.data)
-        await storeData(username)
-        await navigation.navigate('AppNavigation')
+        if (res.data.code === 200) {
+            await storeData(username)
+            await navigation.navigate('AppNavigation')
+        }
     }
 
     return (
