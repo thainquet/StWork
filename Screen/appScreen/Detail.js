@@ -10,12 +10,21 @@ import {
 import { Card, Avatar } from 'react-native-elements'
 import { quanNoiThanh as quan_huyen, posts as baiDang } from '../../dummyData'
 import { ScrollView } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
 
+
+const storeData = async (value) => {
+    try {
+        await AsyncStorage.setItem('favorite', value)
+    } catch (e) {
+        // saving error
+    }
+}
 
 const Detail = ({ route, navigation }) => {
     const { id } = route.params
     const savedThis = (id) => {
-        console.log(id)
+        storeData(JSON.stringify(baiDang.filter(post => post.id === id)))
     }
     return (
         <View>
