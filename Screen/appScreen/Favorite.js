@@ -6,7 +6,8 @@ import {
   Button,
   Avatar,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Linking
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { posts as baiDang } from '../../favorDummy.js'
@@ -71,6 +72,15 @@ const Favorite = ({ navigation }) => {
                       }}>
                         Mức lương: {i.salary} vnđ
                 </Text>
+                      <Text style={{
+                        flexWrap: "wrap",
+                        fontSize: 18,
+                        color: "black"
+                      }}
+                      // onPress={() => { Linking.openURL(`tel:${i.phoneNumber}`) }}
+                      >
+                        {i.phoneNumber}
+                      </Text>
                     </View>
 
                     <View style={{ flexDirection: 'row' }}>

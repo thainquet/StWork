@@ -15,6 +15,7 @@ const posts = [{
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
     createAt: "16/04/2020",
     expiredAt: "31/05/2020",
+    phoneNumber: "123456789",
     salary: "5.000.000"
 }, {
     id: '3',
@@ -30,6 +31,7 @@ const posts = [{
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
     createAt: "16/04/2020",
     expiredAt: "31/05/2020",
+    phoneNumber: "123456789",
     salary: "5.500.000"
 }
 ]
