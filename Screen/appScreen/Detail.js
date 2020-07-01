@@ -34,7 +34,7 @@ const Detail = ({ route }) => {
             <ScrollView style={{ paddingTop: 20, paddingBottom: 20, height: '100%' }}>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <View>
-                        {baiDang && baiDang.filter(i => i.id === id).map(i => (
+                        {baiDang && baiDang.filter(i => i.id == id).map(i => (
                             <View key={i.id}>
                                 <View style={{
                                     width: 400,
