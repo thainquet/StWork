@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'
 import {
     StyleSheet,
     Image,
@@ -12,6 +11,8 @@ import { quanNoiThanh as quan_huyen, posts as baiDang } from '../../dummyData'
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios'
+const JOBS_URL = "http://10.0.2.2:5000/getJobs"
 
 
 const storeData = async (value) => {
@@ -25,86 +26,87 @@ const storeData = async (value) => {
 const Detail = ({ route }) => {
     const navigation = useNavigation()
     const { id } = route.params
+    const [allJobs, setAllJobs] = useState()
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const res = await axios.get(JOBS_URL)
+                let result = []
+                res.data.data.forEach(i => {
+                    result.push({
+                        id: i[0],
+                        title: i[1],
+                        content: i[2],
+                        company: i[3],
+                        contactName: i[4],
+                        salary: i[5],
+                        address: i[6],
+                        dateExpired: i[7]
+                    })
+                })
+                setAllJobs(result.filter(post => post.id === id))
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        getData()
+    })
     const savedThis = (id) => {
         storeData(JSON.stringify(baiDang.filter(post => post.id === id)))
+        console.log(allJobs)
         navigation.goBack()
     }
     return (
-        <View>
+        <View style={{ backgroundColor: '#a7e9ff' }}>
             <ScrollView style={{ paddingTop: 20, paddingBottom: 20, height: '100%' }}>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <View>
                     <View>
-                        {baiDang && baiDang.filter(i => i.id == id).map(i => (
+                        {allJobs !== undefined ? allJobs.map(i => (
                             <View key={i.id}>
                                 <View style={{
-                                    width: 400,
+                                    marginTop: '5%',
                                     flex: 1,
                                     flexDirection: 'row',
                                     justifyContent: 'space-evenly',
                                     alignContent: 'stretch'
                                 }}>
-                                    <Avatar
-                                        style={{
-                                            marginLeft: '1%',
-                                            flex: 2,
-                                            width: 100,
-                                            height: 100,
-                                        }}
-                                        source={{
-                                            uri: i.avatar,
-                                        }}
-                                    />
                                     <View style={{
                                         marginLeft: '5%',
-                                        marginRight: '10%',
+                                        marginRight: '5%',
+                                        padding: '5%',
                                         flex: 6,
+                                        backgroundColor: 'white'
                                     }}>
-                                        <Text style={{
-                                            flexWrap: "wrap",
-                                            fontSize: 20
-                                        }}>
-                                            {i.title}
-                                        </Text>
-                                        <Text style={{
-                                            fontSize: 16
-                                        }}>
-                                            Mô tả: {i.content.length > 200 ? i.content.substring(0, 200) : i.content}
-                                        </Text>
-                                        <Text style={{
-                                            fontSize: 16
-                                        }}>
-                                            Ngày đăng: {i.createAt}
-                                        </Text>
-                                        <Text style={{
-                                            fontSize: 16
-                                        }}>
-                                            Ngày hết hạn: {i.expiredAt}
-                                        </Text>
-                                        <Text style={{
-                                            fontSize: 16
-                                        }}>
-                                            Người đăng: {i.postAuthor}
-                                        </Text>
-                                        <Text style={{
-                                            fontSize: 16
-                                        }}>
-                                            Mức lương: {i.salary} vnđ
-                                        </Text>
-
-                                        <View style={{ flexDirection: 'row' }}>
-                                            {i.timeRequired === 'partime' ? (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#a78ccc' }}>
-                                                <Text>{i.timeRequired}</Text>
-                                            </TouchableOpacity>) : (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#5eba7d' }}>
-                                                <Text>{i.timeRequired}</Text>
-                                            </TouchableOpacity>)}
-                                            <TouchableOpacity style={{ borderWidth: 1, borderLeftWidth: 0, padding: 5, width: 90, marginTop: 10, backgroundColor: '#e6e6e6' }}>
-                                                <Text>{i.quan}</Text>
-                                            </TouchableOpacity>
+                                        <View>
+                                            <Text style={{
+                                                flexWrap: "wrap",
+                                                fontSize: 18
+                                            }}>
+                                                {i.title}
+                                            </Text>
+                                            <Text style={{
+                                                flexWrap: "wrap",
+                                                fontSize: 16
+                                            }}>
+                                                Mức lương: {i.salary} vnđ
+                                      </Text>
+                                            <Text style={{
+                                                flexWrap: "wrap",
+                                                fontSize: 16
+                                            }}>
+                                                Ngày hết hạn ứng tuyển: {i.dateExpired}
+                                            </Text>
                                         </View>
                                     </View>
                                 </View>
                             </View>
-                        ))}
+                        )) : (
+                                <View>
+                                    <Text>
+                                        Updating
+                                </Text>
+                                </View>
+                            )}
                     </View>
                     <View>
                         <TouchableOpacity onPress={() => savedThis(id)} style={{ fontSize: 20, height: 60, backgroundColor: "pink", borderRadius: 15, padding: 10 }}>
