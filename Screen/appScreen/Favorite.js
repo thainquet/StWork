@@ -11,53 +11,55 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { posts as baiDang } from '../../favorDummy.js'
+import axios from 'axios'
+const JOBS_URL = "http://10.0.2.2:5000/getJobs"
 
-const getMyStringValue = async () => {
-  try {
-    return await AsyncStorage.getItem('favorite')
-  } catch (e) {
-    // read error
-  }
-}
 
 const Favorite = ({ navigation }) => {
   const [favor, setFavor] = useState(baiDang)
-  // useEffect(() => {
-  //   getMyStringValue().then(res => {
-  //     setFavor(res)
-  //     console.log(res)
-  //   })
-  // })
+  useEffect(() => {
+    const getData = async () => {
+      const res = await axios.get(JOBS_URL)
+      let result = []
+      res.data.data.forEach(i => {
+        result.push({
+          id: i[0],
+          title: i[1],
+          content: i[2],
+          company: i[3],
+          contactName: i[4],
+          salary: i[5],
+          address: i[6],
+          dateExpired: i[7]
+        })
+      })
+      setFavor(result)
+    }
+    getData()
+  })
   return (
     <>
-      <View>
+      <View style={{ backgroundColor: '#a7e9ff' }}>
         <ScrollView>
           <View>
             {favor.length > 0 ? (favor.map(i => (
-              <TouchableOpacity key={i.id} onPress={() => navigation.push('Detail', { id: i.id })}>
+              <TouchableOpacity key={i.id} onPress={() => {
+                navigation.push('Detail', { id: i.id })
+              }}>
                 <View style={{
                   marginTop: '5%',
-                  width: 500,
                   flex: 1,
                   flexDirection: 'row',
                   justifyContent: 'space-evenly',
                   alignContent: 'stretch'
                 }}>
-                  {/* <Avatar
-                    style={{
-                      marginLeft: '1%',
-                      flex: 2,
-                      width: 100,
-                      height: 100,
-                    }}
-                    source={{
-                      uri: i.avatar,
-                    }}
-                  /> */}
                   <View style={{
                     marginLeft: '5%',
-                    marginRight: '10%',
+                    marginRight: '5%',
+                    padding: '5%',
                     flex: 6,
+                    borderWidth: 1,
+                    backgroundColor: 'white'
                   }}>
                     <View>
                       <Text style={{
@@ -71,27 +73,13 @@ const Favorite = ({ navigation }) => {
                         fontSize: 16
                       }}>
                         Mức lương: {i.salary} vnđ
-                </Text>
+                      </Text>
                       <Text style={{
                         flexWrap: "wrap",
-                        fontSize: 18,
-                        color: "black"
-                      }}
-                      // onPress={() => { Linking.openURL(`tel:${i.phoneNumber}`) }}
-                      >
-                        {i.phoneNumber}
+                        fontSize: 16
+                      }}>
+                        Ngày hết hạn ứng tuyển: {i.dateExpired}
                       </Text>
-                    </View>
-
-                    <View style={{ flexDirection: 'row' }}>
-                      {i.timeRequired === 'Partime' ? (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#a78ccc' }}>
-                        <Text>{i.timeRequired}</Text>
-                      </TouchableOpacity>) : (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#5eba7d' }}>
-                        <Text>{i.timeRequired}</Text>
-                      </TouchableOpacity>)}
-                      <TouchableOpacity style={{ borderWidth: 1, borderLeftWidth: 0, padding: 5, width: 90, marginTop: 10, backgroundColor: '#e6e6e6' }}>
-                        <Text>{i.quan}</Text>
-                      </TouchableOpacity>
                     </View>
                   </View>
                 </View>
