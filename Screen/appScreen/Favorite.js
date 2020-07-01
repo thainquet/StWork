@@ -1,39 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import {
-  StyleSheet,
   Text,
   View,
-  Button,
-  Avatar,
   TouchableOpacity,
-  ScrollView,
-  Linking
+  ScrollView
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import { posts as baiDang } from '../../favorDummy.js'
 import axios from 'axios'
 const JOBS_URL = "http://10.0.2.2:5000/getJobs"
 
 
 const Favorite = ({ navigation }) => {
-  const [favor, setFavor] = useState(baiDang)
+  const [favor, setFavor] = useState()
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get(JOBS_URL)
-      let result = []
-      res.data.data.forEach(i => {
-        result.push({
-          id: i[0],
-          title: i[1],
-          content: i[2],
-          company: i[3],
-          contactName: i[4],
-          salary: i[5],
-          address: i[6],
-          dateExpired: i[7]
+      try {
+        const res = await axios.get(JOBS_URL)
+        let result = []
+        res.data.data.forEach(i => {
+          result.push({
+            id: i[0],
+            title: i[1],
+            content: i[2],
+            company: i[3],
+            contactName: i[4],
+            salary: i[5],
+            address: i[6],
+            dateExpired: i[7]
+          })
         })
-      })
-      setFavor(result)
+        setFavor(result)
+      } catch (e) {
+        console.log(e)
+      }
     }
     getData()
   })
@@ -42,7 +40,7 @@ const Favorite = ({ navigation }) => {
       <View style={{ backgroundColor: '#a7e9ff' }}>
         <ScrollView>
           <View>
-            {favor.length > 0 ? (favor.map(i => (
+            {favor !== undefined ? (favor.map(i => (
               <TouchableOpacity key={i.id} onPress={() => {
                 navigation.push('Detail', { id: i.id })
               }}>
