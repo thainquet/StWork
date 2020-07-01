@@ -51,8 +51,8 @@ const HomeTab = () => {
           padding: 0,
         }
       }} initialRouteName="searchTab">
-      <Tab.Screen name="Home" component={HomeStackScreen} />
-      <Tab.Screen name="Favorite" component={FavoriteStackScreen} />
+      <Tab.Screen name="Tìm kiếm" component={HomeStackScreen} />
+      <Tab.Screen name="Mục ưa thích" component={FavoriteStackScreen} />
     </Tab.Navigator>
   )
 }
