@@ -47,8 +47,10 @@ const HomeTab = () => {
         inactiveTintColor: 'gray',
         labelStyle: {
           fontSize: 25,
-          margin: 0,
-          padding: 0,
+          paddingTop: 8,
+          width: '100%',
+          height: '100%',
+          borderRightWidth: 1
         }
       }} initialRouteName="searchTab">
       <Tab.Screen name="Tìm kiếm" component={HomeStackScreen} />
