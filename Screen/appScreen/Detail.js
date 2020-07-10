@@ -1,59 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-    StyleSheet,
-    Image,
     Text,
     View,
     TouchableOpacity
 } from 'react-native';
-import { Card, Avatar } from 'react-native-elements'
-import { quanNoiThanh as quan_huyen, posts as baiDang } from '../../dummyData'
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios'
-const JOBS_URL = "http://10.0.2.2:5000/getJobs"
-
+import data from '../../data/allJobs'
+import URL from '../../config'
 
 const storeData = async (value) => {
     try {
-        await AsyncStorage.setItem('favorite', value)
+        await AsyncStorage.setItem('@favorite', value)
     } catch (e) {
         // saving error
+    }
+}
+
+const getMyStringValue = async () => {
+    try {
+        return await AsyncStorage.getItem('@favorite')
+    } catch (e) {
+        // read error
     }
 }
 
 const Detail = ({ route }) => {
     const navigation = useNavigation()
     const { id } = route.params
-    const [allJobs, setAllJobs] = useState()
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const res = await axios.get(JOBS_URL)
-                let result = []
-                res.data.data.forEach(i => {
-                    result.push({
-                        id: i[0],
-                        title: i[1],
-                        content: i[2],
-                        company: i[3],
-                        contactName: i[4],
-                        salary: i[5],
-                        address: i[6],
-                        dateExpired: i[7]
-                    })
-                })
-                setAllJobs(result.filter(post => post.id === id))
-            } catch (e) {
-                console.log(e)
-            }
+    const [allJobs, setAllJobs] = useState(data.filter(i => i.id == id))
+    const [btnAdd, setBtnAdd] = useState(true)
+    getMyStringValue().then(res => {
+        let data = JSON.parse(res)
+        if (data.find(i => i.id === id)) {
+            setBtnAdd(false)
         }
-        getData()
     })
-    const savedThis = (id) => {
-        storeData(JSON.stringify(baiDang.filter(post => post.id === id)))
-        console.log(allJobs)
+    const savedThis = async (id) => {
+        let oldFav = await getMyStringValue()
+        let tempArr = []
+        JSON.parse(oldFav).forEach(i => {
+            tempArr.push(i)
+        })
+        tempArr.push(data.filter(post => post.id === id)[0])
+        await AsyncStorage.setItem('@favorite', JSON.stringify(tempArr))
+        navigation.goBack()
+    }
+    const deleteThis = async (id) => {
+        let oldFav = await getMyStringValue()
+        let tempArr = JSON.parse(oldFav).filter(i => i.id !== id)
+        await AsyncStorage.setItem('@favorite', JSON.stringify(tempArr))
         navigation.goBack()
     }
     return (
@@ -80,16 +77,59 @@ const Detail = ({ route }) => {
                                         <View>
                                             <Text style={{
                                                 flexWrap: "wrap",
-                                                fontSize: 18
+                                                fontSize: 28
                                             }}>
                                                 {i.title}
                                             </Text>
+
+                                            <Text>{"\n"}</Text>
+
+                                            <Text style={{
+                                                flexWrap: "wrap",
+                                                fontSize: 18
+                                            }}>
+                                                Mô tả: {i.content}
+                                            </Text>
+
+                                            <Text>{"\n"}</Text>
+
+                                            <Text style={{
+                                                flexWrap: "wrap",
+                                                fontSize: 18
+                                            }}>
+                                                Địa chỉ: {i.address}
+                                            </Text>
+
+                                            <Text>{"\n"}</Text>
+
+                                            <Text style={{
+                                                flexWrap: "wrap",
+                                                fontSize: 18
+                                            }}>
+                                                Công ty: {i.company}
+                                            </Text>
+
+
+                                            <Text>{"\n"}</Text>
+
+                                            <Text style={{
+                                                flexWrap: "wrap",
+                                                fontSize: 18
+                                            }}>
+                                                Người liên hệ: {i.contactName}
+                                            </Text>
+
+                                            <Text>{"\n"}</Text>
+
                                             <Text style={{
                                                 flexWrap: "wrap",
                                                 fontSize: 16
                                             }}>
                                                 Mức lương: {i.salary} vnđ
-                                      </Text>
+                                            </Text>
+
+                                            <Text>{"\n"}</Text>
+
                                             <Text style={{
                                                 flexWrap: "wrap",
                                                 fontSize: 16
@@ -108,12 +148,46 @@ const Detail = ({ route }) => {
                                 </View>
                             )}
                     </View>
-                    <View>
-                        <TouchableOpacity onPress={() => savedThis(id)} style={{ fontSize: 20, height: 60, backgroundColor: "pink", borderRadius: 15, padding: 10 }}>
-                            <Text>
-                                get notice
+                    <View style={{ alignItems: 'center' }}>
+                        {btnAdd ? (
+                            <TouchableOpacity
+                                onPress={() => savedThis(id)}
+                                style={{
+                                    fontSize: 50,
+                                    height: 60,
+                                    backgroundColor: "pink",
+                                    borderRadius: 15,
+                                    width: '50%',
+                                    marginTop: 10,
+                                    alignItems: 'center',
+                                    padding: 20,
+                                    marginBottom: 50
+                                    // margin: '50%'
+                                }}>
+                                <Text>
+                                    Thêm vào mục ưa thích
                             </Text>
-                        </TouchableOpacity>
+                            </TouchableOpacity>
+                        ) : (
+                                <TouchableOpacity
+                                    onPress={() => deleteThis(id)}
+                                    style={{
+                                        fontSize: 50,
+                                        height: 60,
+                                        backgroundColor: "pink",
+                                        borderRadius: 15,
+                                        width: '50%',
+                                        marginTop: 10,
+                                        alignItems: 'center',
+                                        padding: 20,
+                                        marginBottom: 50
+                                        // margin: '50%'
+                                    }}>
+                                    <Text>
+                                        Xóa khỏi mục ưa thích
+                            </Text>
+                                </TouchableOpacity>
+                            )}
                     </View>
                 </View>
             </ScrollView>

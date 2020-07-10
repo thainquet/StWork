@@ -12,8 +12,8 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
-const LOGIN_URL = "http://10.0.2.2:5000/login"
-
+import URL from '../../config'
+const LOGIN_URL = URL + "/login"
 const storeData = async (value) => {
     try {
         await AsyncStorage.setItem('@username', value)
@@ -28,15 +28,22 @@ const LoginForm = () => {
 
     const navigation = useNavigation()
 
-    onClickLogin = async () => {
-        let res = await axios.post(LOGIN_URL, JSON.stringify({
-            username: username,
-            password: password
-        }))
-        if (res.data.code === 200) {
-            await storeData(username)
-            await navigation.navigate('AppNavigation')
-        }
+    onClickLogin = () => {
+        fetch(LOGIN_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        }).then(res => res.json())
+            .then(res => {
+                if (res.code === 200) {
+                    storeData(username).then(
+                        navigation.navigate('AppNavigation'))
+                } else {
+                    Alert.alert('Error!', res.message)
+                }
+            })
     }
 
     return (
@@ -44,7 +51,7 @@ const LoginForm = () => {
             <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={{ uri: 'https://img.icons8.com/windows/32/000000/username.png' }} />
                 <TextInput style={styles.inputs}
-                    placeholder="Email"
+                    placeholder="Username"
                     keyboardType="email-address"
                     underlineColorAndroid='transparent'
                     onChangeText={(email) => setUsername(email)}
@@ -65,12 +72,12 @@ const LoginForm = () => {
                 <Text style={styles.loginText}>Login</Text>
             </TouchableHighlight>
 
-            <TouchableHighlight style={styles.buttonContainer} onPress={() => navigation.navigate('ForgotPassword')}>
-                <Text>Forgot your password?</Text>
-            </TouchableHighlight>
-
             <TouchableHighlight style={styles.buttonContainer} onPress={() => navigation.navigate('Signup')}>
                 <Text>Register</Text>
+            </TouchableHighlight>
+
+            <TouchableHighlight style={styles.buttonContainer} onPress={() => navigation.navigate('ForgotPassword')}>
+                <Text>Forgot your password?</Text>
             </TouchableHighlight>
         </View>
     )

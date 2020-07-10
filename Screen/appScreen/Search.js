@@ -1,31 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'
 import {
-  StyleSheet,
-  Image,
   Text,
   View,
   Button,
-  Picker,
   Modal,
-  Dimensions,
   ScrollView,
 } from 'react-native';
-import { Card, Avatar } from 'react-native-elements'
-import { quanNoiThanh as quan_huyen, posts as baiDang } from '../../dummyData'
-
+import { Picker } from '@react-native-community/picker'
 import { TouchableOpacity } from 'react-native';
-
-const URL = 'https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/quan_huyen.json'
+import data from '../../data/allJobs'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 const Search = ({ navigation }) => {
-  const [quanHuyen, setQuanHuyen] = useState(quan_huyen)
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedValue, setSelectedValue] = useState("Tất cả")
   const [itemTimeRequired, setItemTiemRequired] = useState("Tất cả")
-  const [allPosts, setAllPosts] = useState(baiDang)
-  const screenHeight = Dimensions.get('window').height
+  const [allPosts, setAllPosts] = useState(data)
+  const allSalary = data.map(i => i.salary)
+  const uniqueSalary = allSalary.filter(function (item, pos) {
+    return allSalary.indexOf(item) == pos;
+  })
   return (
     <>
       <View>
@@ -38,25 +33,25 @@ const Search = ({ navigation }) => {
             >
               <View style={{ flex: 1 }} >
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ fontSize: 20, height: 50, width: 150 }}>Vị trí</Text>
+                  <Text style={{ fontSize: 20, height: 50, width: 150, margin: 10 }}>Mức Lương</Text>
                   <Picker
                     selectedValue={selectedValue}
                     style={{ height: 50, width: 150 }}
-                    onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                    onValueChange={(itemValue) => setSelectedValue(itemValue)}
                   >
                     <Picker.Item label="Tất cả" value="Tất cả" />
-                    {quanHuyen.map(i => <Picker.Item label={i.name} value={i.name} key={i.code} />)}
+                    {uniqueSalary.map((i, index) => <Picker.Item label={i} value={i} key={index} />)}
                   </Picker>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={{ fontSize: 20, height: 50, width: 150 }}>Thời gian làm việc</Text>
+                  <Text style={{ fontSize: 20, height: 50, width: 150, margin: 10 }}>Thời gian làm việc</Text>
                   <Picker
                     selectedValue={itemTimeRequired}
                     style={{ height: 50, width: 150 }}
                     onValueChange={(itemValue) => setItemTiemRequired(itemValue)}
                   >
-                    <Picker.Item label="Partime" value="Partime" />
-                    <Picker.Item label="Fulltime" value="Fulltime" />
+                    <Picker.Item label="partime" value="partime" />
+                    <Picker.Item label="fulltime" value="fulltime" />
                     <Picker.Item label="Tất cả" value="Tất cả" />
                   </Picker>
                 </View>
@@ -64,60 +59,49 @@ const Search = ({ navigation }) => {
                   onPress={() => {
                     setModalVisible(false)
                     if (itemTimeRequired !== "Tất cả" && selectedValue !== "Tất cả") {
-                      let tempArr = baiDang.filter(i => i.quan === selectedValue)
+                      let tempArr = data.filter(i => i.salary === selectedValue)
                       setAllPosts(tempArr.filter(i => i.timeRequired === itemTimeRequired))
                     }
                     if (itemTimeRequired !== "Tất cả" && selectedValue === "Tất cả") {
-                      setAllPosts(baiDang.filter(i => i.timeRequired === itemTimeRequired))
+                      setAllPosts(data.filter(i => i.timeRequired === itemTimeRequired))
                     }
                     if (itemTimeRequired === "Tất cả" && selectedValue !== "Tất cả") {
-                      setAllPosts(baiDang.filter(i => i.quan === selectedValue))
+                      setAllPosts(data.filter(i => i.salary === selectedValue))
                     }
                     if (itemTimeRequired === "Tất cả" && selectedValue === "Tất cả") {
-                      setAllPosts(baiDang)
+                      setAllPosts(data)
                     }
                   }}
-                  title="Đóng" />
+                  title="Lọc" />
               </View>
             </Modal>
 
             <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontSize: 20 }}>Nơi làm việc: </Text>
-              <Text style={{ fontSize: 20 }}>{selectedValue}</Text>
+              <Text style={{ fontSize: 20, margin: 10 }}>Mức lương: </Text>
+              <Text style={{ fontSize: 20, margin: 10 }}>{selectedValue}</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontSize: 20 }}>Hình thức: </Text>
-              <Text style={{ fontSize: 20 }}>{itemTimeRequired}</Text>
+              <Text style={{ fontSize: 20, margin: 10 }}>Yêu cầu thời gian: </Text>
+              <Text style={{ fontSize: 20, margin: 10 }}>{itemTimeRequired}</Text>
             </View>
-            <Button title="Điều kiện lọc"
-              // onPress={() => navigation.navigate('AuthNavigation')} />
-              onPress={() => setModalVisible(true)} />
+            <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+              <Button style={{ margin: 10 }} title="Thay đổi điều kiện lọc"
+                onPress={() => setModalVisible(true)} />
+            </View>
           </View>
           <View style={{
-            flex: 1,
-            backgroundColor: '#c7eef5'
+            // flex: 1,
+            backgroundColor: '#c7eef5',
+            paddingTop: 10
           }}>
             {allPosts.length > 0 ? (allPosts.map(i => (
               <TouchableOpacity key={i.id} onPress={() => navigation.push('Detail', { id: i.id })}>
                 <View style={{
                   marginTop: '5%',
-                  width: 500,
-                  flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'space-evenly',
-                  alignContent: 'stretch'
+                  width: '100%',
+                  borderBottomWidth: 1,
+                  paddingBottom: 20
                 }}>
-                  <Avatar
-                    style={{
-                      marginLeft: '1%',
-                      flex: 2,
-                      width: 100,
-                      height: 100,
-                    }}
-                    source={{
-                      uri: i.avatar,
-                    }}
-                  />
                   <View style={{
                     marginLeft: '5%',
                     marginRight: '10%',
@@ -126,26 +110,53 @@ const Search = ({ navigation }) => {
                     <View>
                       <Text style={{
                         flexWrap: "wrap",
-                        fontSize: 18
+                        fontSize: 26,
+                        color: 'green'
                       }}>
                         {i.title}
                       </Text>
-                      <Text style={{
-                        flexWrap: "wrap",
-                        fontSize: 16
-                      }}>
-                        Mức lương: {i.salary} vnđ
-                      </Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
-                      {i.timeRequired === 'Partime' ? (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#a78ccc' }}>
-                        <Text>{i.timeRequired}</Text>
-                      </TouchableOpacity>) : (<TouchableOpacity style={{ borderWidth: 1, padding: 5, width: 70, marginTop: 10, backgroundColor: '#5eba7d' }}>
-                        <Text>{i.timeRequired}</Text>
-                      </TouchableOpacity>)}
-                      <TouchableOpacity style={{ borderWidth: 1, borderLeftWidth: 0, padding: 5, width: 90, marginTop: 10, backgroundColor: '#e6e6e6' }}>
-                        <Text>{i.quan}</Text>
-                      </TouchableOpacity>
+                      <View style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center"
+                      }}>
+                        <FontAwesome name='money' size={32} />
+                        <Text style={{
+                          flexWrap: "wrap",
+                          fontSize: 18,
+                          padding: 15
+                        }}>{i.salary} vnđ</Text>
+                      </View>
+                    </View>
+                    <View style={{ flexDirection: 'row' }}>
+                      <View style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center"
+                      }}>
+                        <FontAwesome name='clock-o' size={32} />
+                        <Text style={{
+                          flexWrap: "wrap",
+                          fontSize: 18,
+                          padding: 15
+                        }}>{i.timeRequired}</Text>
+                      </View>
+                    </View>
+                    <View style={{ flexDirection: 'row' }}>
+                      <View style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center"
+                      }}>
+                        <FontAwesome name='address-book-o' size={32} />
+                        <Text style={{
+                          flexWrap: "wrap",
+                          fontSize: 18,
+                          padding: 15
+                        }}>{i.address}</Text>
+                      </View>
                     </View>
                   </View>
                 </View>

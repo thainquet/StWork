@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import {
     StyleSheet,
     Text,
@@ -10,47 +10,62 @@ import {
     Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import { PROD_URL } from '../../config'
+import axios from 'axios'
+import URL from '../../config'
+const SIGNUP_URL = URL + "/register"
 
 const SignupForm = () => {
     const navigation = useNavigation()
+    const [email, setEmail] = useState()
+    const [pw, setPw] = useState()
+    const [username, setUsername] = useState()
 
-    handleClick = (viewId) => {
-        Alert.alert("Alert", "Button pressed " + viewId);
+    handleClick = async () => {
+        try {
+            let res = await axios.post(SIGNUP_URL, JSON.stringify({
+                username: username,
+                email: email,
+                password: pw
+            }))
+            if (res.data.code !== 200) {
+                Alert.alert("Error!", res.data.message)
+            } else {
+                navigation.push('Login')
+            }
+        } catch (e) {
+            console.log(e)
+        }
     }
     return (
         <View style={styles.container}>
             <View style={styles.inputContainer}>
-                <Image style={styles.inputIcon} source={{ uri: 'https://img.icons8.com/windows/32/000000/username.png' }} />
                 <TextInput style={styles.inputs}
-                    placeholder="Email"
+                    placeholder="username"
+                    underlineColorAndroid='transparent'
+                    onChangeText={(username) => setUsername(username)}
+                />
+            </View>
+
+            <View style={styles.inputContainer}>
+                <TextInput style={styles.inputs}
+                    placeholder="email"
                     keyboardType="email-address"
                     underlineColorAndroid='transparent'
-                //   onChangeText={(email) => this.setState({email})}
+                    onChangeText={(email) => setEmail(email)}
                 />
             </View>
 
             <View style={styles.inputContainer}>
-                <Image style={styles.inputIcon} source={{ uri: 'https://img.icons8.com/metro/26/000000/password.png' }} />
                 <TextInput style={styles.inputs}
-                    placeholder="Password"
+                    placeholder="password"
                     secureTextEntry={true}
                     underlineColorAndroid='transparent'
-                //   onChangeText={(password) => this.setState({password})}
+                    onChangeText={(password) => setPw(password)}
                 />
             </View>
 
-            <View style={styles.inputContainer}>
-                <Image style={styles.inputIcon} source={{ uri: 'https://img.icons8.com/metro/26/000000/password.png' }} />
-                <TextInput style={styles.inputs}
-                    placeholder="Re-type Password"
-                    secureTextEntry={true}
-                    underlineColorAndroid='transparent'
-                //   onChangeText={(password) => this.setState({password})}
-                />
-            </View>
-
-            <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => handleClick('login')}>
+            <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={handleClick}>
                 <Text style={styles.loginText}>Confirm</Text>
             </TouchableHighlight>
 

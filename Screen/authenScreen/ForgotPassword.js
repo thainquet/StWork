@@ -4,32 +4,55 @@ import {
     Text,
     View,
     TextInput,
-    Button,
     TouchableHighlight,
-    Image,
     Alert
 } from 'react-native';
+import URL from '../../config'
+import axios from 'axios'
+const FORGOT_URL = URL + "/forgotPass"
+import { useNavigation } from '@react-navigation/native';
 
 
-const ForgotPassword = () => {    
+const ForgotPassword = () => {
+    const navigation = useNavigation()
     const [email, setEmail] = useState('')
+    const [username, setUsername] = useState('')
 
-    handleClick = (viewId) => {
-        Alert.alert("Alert", "Button pressed " + viewId);
+    handleClick = async () => {
+        try {
+            let res = await axios.post(FORGOT_URL, JSON.stringify({
+                username: username,
+                email: email
+            }))
+            if (res.data.code !== 200) {
+                console.log("Error!", res)
+            } else {
+                navigation.goBack()
+            }
+        } catch (e) {
+            console.log("caught:", e)
+        }
     }
     return (
         <View style={styles.container}>
             <View style={styles.inputContainer}>
-                <Image style={styles.inputIcon} source={{ uri: 'https://img.icons8.com/windows/32/000000/username.png' }} />
+                <TextInput style={styles.inputs}
+                    placeholder="Username"
+                    keyboardType="email-address"
+                    underlineColorAndroid='transparent'
+                    onChangeText={(username) => setUsername(username)}
+                />
+            </View>
+            <View style={styles.inputContainer}>
                 <TextInput style={styles.inputs}
                     placeholder="Email"
                     keyboardType="email-address"
                     underlineColorAndroid='transparent'
-                  onChangeText={(email) => setEmail(email)}
+                    onChangeText={(email) => setEmail(email)}
                 />
             </View>
 
-            <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => handleClick('login')}>
+            <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={handleClick}>
                 <Text style={styles.loginText}>Confirm</Text>
             </TouchableHighlight>
         </View>
