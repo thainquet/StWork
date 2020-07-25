@@ -37,7 +37,7 @@ const ForgotPassword = () => {
         <View style={styles.container}>
             <View style={styles.inputContainer}>
                 <TextInput style={styles.inputs}
-                    placeholder="Username"
+                    placeholder="Tên tài khoản"
                     keyboardType="email-address"
                     underlineColorAndroid='transparent'
                     onChangeText={(username) => setUsername(username)}
@@ -53,7 +53,7 @@ const ForgotPassword = () => {
             </View>
 
             <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={handleClick}>
-                <Text style={styles.loginText}>Confirm</Text>
+                <Text style={styles.loginText}>Xác nhận</Text>
             </TouchableHighlight>
         </View>
     )

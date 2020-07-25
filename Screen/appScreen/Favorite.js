@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import data from '../../data/allJobs'
 import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios'
 
 const getMyStringValue = async () => {
   try {
@@ -21,6 +22,15 @@ const Favorite = ({ navigation }) => {
   useEffect(() => {
     getMyStringValue().then((res) => setFavor(JSON.parse(res)))
   })
+  useEffect(() => {
+    const getData = async () => {
+      const res = await axios.get(
+        'http://172.245.5.113:5000/getJobs',
+      )
+      console.log(res.data)
+    }
+    // getData()
+  }, [])
   return (
     <>
       <View style={{ backgroundColor: '#a7e9ff' }}>

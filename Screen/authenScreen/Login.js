@@ -14,6 +14,21 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import URL from '../../config'
 const LOGIN_URL = URL + "/login"
+
+const getJobByID = async () => {
+    let res = await axios.get(
+        'http://172.245.5.113:5000/getJobs',
+        {
+            method: "GET",
+            // headers: {
+            //     'Content-Type': 'text/html; charset=utf-8'
+            // }
+        }
+    )
+    console.log(res.data.data)
+}
+
+
 const storeData = async (value) => {
     try {
         await AsyncStorage.setItem('@username', value)
@@ -23,6 +38,7 @@ const storeData = async (value) => {
 }
 
 const LoginForm = () => {
+    // getJobByID()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -51,7 +67,7 @@ const LoginForm = () => {
             <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={{ uri: 'https://img.icons8.com/windows/32/000000/username.png' }} />
                 <TextInput style={styles.inputs}
-                    placeholder="Username"
+                    placeholder="Tên tài khoản"
                     keyboardType="email-address"
                     underlineColorAndroid='transparent'
                     onChangeText={(email) => setUsername(email)}
@@ -61,7 +77,7 @@ const LoginForm = () => {
             <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon} source={{ uri: 'https://img.icons8.com/metro/26/000000/password.png' }} />
                 <TextInput style={styles.inputs}
-                    placeholder="Password"
+                    placeholder="Mật khẩu"
                     secureTextEntry={true}
                     underlineColorAndroid='transparent'
                     onChangeText={(password) => setPassword(password)}
@@ -69,15 +85,15 @@ const LoginForm = () => {
             </View>
 
             <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => onClickLogin()}>
-                <Text style={styles.loginText}>Login</Text>
+                <Text style={styles.loginText}>Đăng nhập</Text>
             </TouchableHighlight>
 
             <TouchableHighlight style={styles.buttonContainer} onPress={() => navigation.navigate('Signup')}>
-                <Text>Register</Text>
+                <Text>Đăng ký </Text>
             </TouchableHighlight>
 
             <TouchableHighlight style={styles.buttonContainer} onPress={() => navigation.navigate('ForgotPassword')}>
-                <Text>Forgot your password?</Text>
+                <Text>Quên mật khẩu?</Text>
             </TouchableHighlight>
         </View>
     )

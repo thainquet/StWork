@@ -6,7 +6,8 @@ import {
   Button,
   StyleSheet,
   TextInput,
-  TouchableHighlight
+  TouchableHighlight,
+  Alert
 } from 'react-native';
 import Search from '../Screen/appScreen/Search'
 import Favorite from '../Screen/appScreen/Favorite'
@@ -46,7 +47,6 @@ const changePw = () => {
         password: pw,
         newpassword: newPw
       })
-      console.log(data)
       let res = await axios.post(changepass_url, data)
       if (res.data.code !== 200) {
         Alert.alert("Error!", res.data.message)
@@ -69,23 +69,23 @@ const changePw = () => {
       </View>
       <View style={styles.inputContainer}>
         <TextInput style={styles.inputs}
-          placeholder="Old password"
-          keyboardType="email-address"
+          placeholder="Mật khẩu cũ"
+          secureTextEntry={true}
           underlineColorAndroid='transparent'
           onChangeText={(pw) => setPw(pw)}
         />
       </View>
       <View style={styles.inputContainer}>
         <TextInput style={styles.inputs}
-          placeholder="New password"
-          keyboardType="email-address"
+          placeholder="Mật khẩu mới"
+          secureTextEntry={true}
           underlineColorAndroid='transparent'
           onChangeText={(pw) => setNewPw(pw)}
         />
       </View>
 
       <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={handleClick}>
-        <Text style={styles.loginText}>Confirm</Text>
+        <Text style={styles.loginText}>Xác nhận</Text>
       </TouchableHighlight>
     </View>
   )
@@ -101,7 +101,13 @@ const HomeStackScreen = () => {
         },
         headerTitleAlign: 'center'
       }} />
-      <HomepageDetailStack.Screen name="ChangePass" component={changePw} />
+      <HomepageDetailStack.Screen name="ChangePass" component={changePw} options={{
+        title: 'Đổi mật khẩu',
+        headerStyle: {
+          backgroundColor: '#f4511e',
+        },
+        headerTitleAlign: 'center'
+      }} />
     </HomepageDetailStack.Navigator>
   );
 }

@@ -41,7 +41,7 @@ const SignupForm = () => {
         <View style={styles.container}>
             <View style={styles.inputContainer}>
                 <TextInput style={styles.inputs}
-                    placeholder="username"
+                    placeholder="Tên tài khoản"
                     underlineColorAndroid='transparent'
                     onChangeText={(username) => setUsername(username)}
                 />
@@ -49,7 +49,7 @@ const SignupForm = () => {
 
             <View style={styles.inputContainer}>
                 <TextInput style={styles.inputs}
-                    placeholder="email"
+                    placeholder="Email"
                     keyboardType="email-address"
                     underlineColorAndroid='transparent'
                     onChangeText={(email) => setEmail(email)}
@@ -58,7 +58,7 @@ const SignupForm = () => {
 
             <View style={styles.inputContainer}>
                 <TextInput style={styles.inputs}
-                    placeholder="password"
+                    placeholder="Mật khẩu"
                     secureTextEntry={true}
                     underlineColorAndroid='transparent'
                     onChangeText={(password) => setPw(password)}
@@ -66,11 +66,11 @@ const SignupForm = () => {
             </View>
 
             <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={handleClick}>
-                <Text style={styles.loginText}>Confirm</Text>
+                <Text style={styles.loginText}>Xác nhận</Text>
             </TouchableHighlight>
 
             <TouchableHighlight style={styles.buttonContainer} onPress={() => navigation.navigate('Login')}>
-                <Text>account exist? Log in here..</Text>
+                <Text>Đã có tài khoản? Đăng nhập tại đây...</Text>
             </TouchableHighlight>
         </View>
     )
